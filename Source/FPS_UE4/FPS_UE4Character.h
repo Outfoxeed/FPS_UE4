@@ -144,5 +144,19 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+protected:
+	UFUNCTION(BlueprintCallable)
+	void SetCameraYaw(const float wantedYaw, const APlayerCameraManager* CameraManager);
+
+	UFUNCTION(BlueprintCallable)
+	void RotateCamera(const bool _WatchingUp);
+	
+	UPROPERTY(EditAnywhere)
+	FVector2D YawMinMax;
+	UPROPERTY(EditAnywhere)
+	float PitchMinMax;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool WatchingUp;
 };
 

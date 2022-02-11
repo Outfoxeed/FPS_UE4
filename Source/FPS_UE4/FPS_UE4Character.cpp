@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "FPS_UE4Character.h"
+
+#include <string>
+
 #include "FPS_UE4Projectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
@@ -103,6 +106,12 @@ void AFPS_UE4Character::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	if(CameraManager == nullptr)
+		return;
+	CameraManager->ViewPitchMin = -PitchMinMax;
+	CameraManager->ViewPitchMax = PitchMinMax;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -259,7 +268,7 @@ void AFPS_UE4Character::MoveForward(float Value)
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
-		AddMovementInput(GetActorForwardVector(), Value);
+		AddMovementInput(GetActorUpVector(), Value);
 	}
 }
 
@@ -297,4 +306,33 @@ bool AFPS_UE4Character::EnableTouchscreenMovement(class UInputComponent* PlayerI
 	}
 	
 	return false;
+}
+
+void AFPS_UE4Character::SetCameraYaw(const float wantedYaw, const APlayerCameraManager* CameraManager)
+{
+	if(CameraManager == nullptr)
+		return;
+
+	const float startYaw = CameraManager->GetCameraRotation().Pitch;
+	const float yawDiff = wantedYaw - startYaw;
+	
+	FString Log = "Start: " + FString(std::to_string(startYaw).c_str()) + "\n"
+		+ "Wanted: " + FString(std::to_string(wantedYaw).c_str()) + "\n"
+		+ "Diff: " + FString(std::to_string(yawDiff).c_str());
+	GLog->Log(Log);
+	
+	AddControllerYawInput(yawDiff);
+}
+
+void AFPS_UE4Character::RotateCamera(const bool _WatchingUp)
+{
+	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	if(CameraManager == nullptr)
+		return;
+
+	WatchingUp = _WatchingUp;
+	CameraManager->ViewYawMin = WatchingUp ? YawMinMax.X : -YawMinMax.Y;
+	CameraManager->ViewYawMax = WatchingUp ? YawMinMax.Y : -YawMinMax.X;
+
+	SetCameraYaw(WatchingUp ? 90.0f : -90.0f, CameraManager);
 }
