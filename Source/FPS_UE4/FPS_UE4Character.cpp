@@ -330,9 +330,13 @@ void AFPS_UE4Character::RotateCamera(const bool _WatchingUp)
 	if(CameraManager == nullptr)
 		return;
 
-	WatchingUp = _WatchingUp;
-	CameraManager->ViewYawMin = WatchingUp ? YawMinMax.X : -YawMinMax.Y;
-	CameraManager->ViewYawMax = WatchingUp ? YawMinMax.Y : -YawMinMax.X;
+	CameraManager->ViewYawMin = _WatchingUp ? YawMinMax.X : -YawMinMax.Y;
+	CameraManager->ViewYawMax = _WatchingUp ? YawMinMax.Y : -YawMinMax.X;
 
-	SetCameraYaw(WatchingUp ? 90.0f : -90.0f, CameraManager);
+	if(WatchingUp != _WatchingUp)
+	{
+		SetCameraYaw(WatchingUp ? 90.0f : -90.0f, CameraManager);
+	}
+	
+	WatchingUp = _WatchingUp;
 }
