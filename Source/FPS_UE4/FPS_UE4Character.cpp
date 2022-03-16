@@ -14,7 +14,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
-#include "GameFramework/CharacterMovementComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -108,15 +107,11 @@ void AFPS_UE4Character::BeginPlay()
 		Mesh1P->SetHiddenInGame(false, true);
 	}
 
-	// Set camera clamp values
 	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
 	if(CameraManager == nullptr)
 		return;
 	CameraManager->ViewPitchMin = -PitchMinMax;
 	CameraManager->ViewPitchMax = PitchMinMax;
-
-	// Set flying movement mode
-	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -273,8 +268,7 @@ void AFPS_UE4Character::MoveForward(float Value)
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
-		GLog->Log("Forward");
-		AddMovementInput(FVector(0,0,1), Value);
+		AddMovementInput(GetActorUpVector(), Value);
 	}
 }
 
@@ -283,7 +277,7 @@ void AFPS_UE4Character::MoveRight(float Value)
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
-		AddMovementInput(FVector(1,0,0), Value);
+		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
 
