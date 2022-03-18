@@ -273,7 +273,6 @@ void AFPS_UE4Character::MoveForward(float Value)
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
-		GLog->Log("Forward");
 		AddMovementInput(FVector(0,0,1), Value);
 	}
 }

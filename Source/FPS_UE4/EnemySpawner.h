@@ -36,6 +36,9 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SpawnEnemies();
+	void PrepareEnemiesSpawn();
+	
+	UFUNCTION(BlueprintCallable)
+	void SpawnEnemiesInstant();
 
 };
