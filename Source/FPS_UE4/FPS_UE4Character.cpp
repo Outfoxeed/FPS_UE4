@@ -282,7 +282,7 @@ void AFPS_UE4Character::MoveRight(float Value)
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
-		AddMovementInput(FVector(1,0,0), Value);
+		AddMovementInput(FVector(WatchingUp ? -1 : 1,0,0), Value);
 	}
 }
 
