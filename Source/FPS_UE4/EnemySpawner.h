@@ -31,12 +31,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> enemiesClasses;
 
-	UPROPERTY(EditAnywhere)
-	float timeBeforeSpawn = 2.5f;
+	// UPROPERTY(EditAnywhere)
+	// float timeBeforeSpawn = 2.5f;
 
 public:
-	UFUNCTION(BlueprintCallable)
-	void PrepareEnemiesSpawn();
+	// UFUNCTION(BlueprintCallable)
+	// void PrepareEnemiesSpawn();
 	
 	UFUNCTION(BlueprintCallable)
 	void SpawnEnemiesInstant();

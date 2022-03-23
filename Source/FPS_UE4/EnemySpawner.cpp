@@ -34,11 +34,11 @@ void UEnemySpawner::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	// ...
 }
 
-void UEnemySpawner::PrepareEnemiesSpawn()
-{
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UEnemySpawner::SpawnEnemiesInstant, timeBeforeSpawn);
-}
+// void UEnemySpawner::PrepareEnemiesSpawn()
+// {
+// 	FTimerHandle TimerHandle;
+// 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UEnemySpawner::SpawnEnemiesInstant, timeBeforeSpawn);
+// }
 
 void UEnemySpawner::SpawnEnemiesInstant()
 {
